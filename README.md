@@ -60,8 +60,6 @@ mvn spring-boot:run
 ### Acessar
 - **API REST:** http://localhost:8080/api
 - **Banco H2 (console):** http://localhost:8080/h2-console
-  - JDBC URL: `jdbc:h2:mem:jornadadb`
-  - User: `sa` | Senha: *(vazio)*
 
 ---
 
@@ -140,12 +138,12 @@ O sistema calcula automaticamente o `nivelRisco` (0-5) e gera missões.
 
 ---
 
-## 👥 Equipe - 
-|         Nome        |   RM   |  Turma |
-|---------------------|--------|--------|
-| Bruno A Zanaeli     | 563736 |        |
-| Christian S Freitas | 566098 |        |
-| Pedro P Biasolli    | 562521 | 1TDSPO |
-| Rodrigo Tiezzi      | 562975 |        |
-| Maheus E Souza      | 562532 |        |
------------------------------------------
+## 👥 Equipe - 1TDSPO
+|         Nome        |   RM   |
+|---------------------|--------|
+| Bruno A Zanaeli     | 563736 |
+| Christian S Freitas | 566098 |
+| Pedro P Biasolli    | 562521 |
+| Rodrigo Tiezzi      | 562975 |
+| Maheus E Souza      | 562532 |
+--------------------------------
