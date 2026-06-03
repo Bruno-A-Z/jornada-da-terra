@@ -52,11 +52,7 @@ public class FazendaService {
         Fazenda fazenda = fazendaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Fazenda não encontrada: " + id));
         fazenda.setNome(dados.getNome());
-        fazenda.setMunicipio(dados.getMunicipio());
-        fazenda.setEstado(dados.getEstado());
-        fazenda.setAreaHectares(dados.getAreaHectares());
-        fazenda.setLatitude(dados.getLatitude());
-        fazenda.setLongitude(dados.getLongitude());
+        fazenda.setLocalizacao(dados.getLocalizacao());
         fazenda.setTipoCultura(dados.getTipoCultura());
         return fazendaRepository.save(fazenda);
     }
