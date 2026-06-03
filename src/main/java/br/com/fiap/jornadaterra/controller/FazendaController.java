@@ -25,28 +25,28 @@ public class FazendaController {
 
     // POST /fazendas/ — cria fazenda sem produtor
     @PostMapping("/produtor/{produtorId}")
-    @Operation(description = "Cadastra fazenda com um Produtor como proprietario")
+    @Operation(summary = "Cadastra fazenda com um Produtor como proprietario")
     public ResponseEntity<Fazenda> cadastrar(@PathVariable Long produtorId, @Valid @RequestBody Fazenda fazenda) {
         return ResponseEntity.status(HttpStatus.CREATED).body(fazendaService.cadastrar(fazenda, produtorId));
     }
 
     // PUT /fazendas/ — vincula produtor
     @PutMapping("/{idFazenda}/produtor/{idProdutor}")
-    @Operation(description = "Vincula um produtor à Fazenda")
+    @Operation(summary = "Vincula um produtor à Fazenda")
     public ResponseEntity<Fazenda> vincularProdutor(@PathVariable Long idFazenda, @PathVariable Long idProdutor) {
         return ResponseEntity.ok(fazendaService.vincularProdutor(idFazenda, idProdutor));
     }
 
     // GET /fazendas/ — lista fazendas do produtor
     @GetMapping("/produtor/{produtorId}")
-    @Operation(description = "Busca Fazenda pelo Id do Produtor")
+    @Operation(summary = "Busca Fazenda pelo Id do Produtor")
     public ResponseEntity<List<Fazenda>> listarPorProdutor(@PathVariable Long produtorId) {
         return ResponseEntity.ok(fazendaService.listarPorProdutorId(produtorId));
     }
 
     // GET /fazendas/
     @GetMapping("/{id}")
-    @Operation(description = "Busca fazenda pelo Id")
+    @Operation(summary = "Busca fazenda pelo Id")
     public ResponseEntity<Fazenda> buscarPorId(@PathVariable Long id) {
         return fazendaService.buscarPorId(id)
                 .map(ResponseEntity::ok)
@@ -55,7 +55,7 @@ public class FazendaController {
 
     // POST /fazendas/
     @PostMapping("/{id}/gerar-missoes")
-    @Operation(description = "Gera Missão")
+    @Operation(summary = "Gera Missão")
     public ResponseEntity<Map<String, Object>> gerarMissoes(@PathVariable Long id) {
         Fazenda fazenda = fazendaService.buscarPorId(id)
                 .orElseThrow(() -> new RuntimeException("Fazenda não encontrada: " + id));
@@ -68,7 +68,7 @@ public class FazendaController {
 
     // PUT /fazendas/
     @PutMapping("/{id}")
-    @Operation(description = "Atualiza Informacoes de uma fazenda")
+    @Operation(summary = "Atualiza Informacoes de uma fazenda")
     public ResponseEntity<Fazenda> atualizar(@PathVariable Long id, @Valid @RequestBody Fazenda dados) {
         try {
             return ResponseEntity.ok(fazendaService.atualizar(id, dados));
@@ -79,7 +79,7 @@ public class FazendaController {
 
     // DELETE /fazendas/
     @DeleteMapping("/{id}")
-    @Operation(description = "Deleta Fazenda pelo Id")
+    @Operation(summary = "Deleta Fazenda pelo Id")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         try {
             fazendaService.deletar(id);

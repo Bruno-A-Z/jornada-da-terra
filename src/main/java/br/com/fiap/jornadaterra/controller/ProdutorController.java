@@ -22,7 +22,7 @@ public class ProdutorController {
 
     // POST /produtores - Cadastrar produtor
     @PostMapping
-    @Operation(description = "Cadastra produtor")
+    @Operation(summary = "Cadastra produtor")
     public ResponseEntity<Produtor> cadastrar(@Valid @RequestBody Produtor produtor) {
         Produtor salvo = produtorService.cadastrar(produtor);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
@@ -30,14 +30,14 @@ public class ProdutorController {
 
     // GET /produtores - Listar todos
     @GetMapping
-    @Operation(description = "Lista todos os Produtores")
+    @Operation(summary = "Lista todos os Produtores")
     public ResponseEntity<List<Produtor>> listarTodos() {
         return ResponseEntity.ok(produtorService.listarTodos());
     }
 
     // GET /produtores/ - Buscar por ID
     @GetMapping("/{id}")
-    @Operation(description = "Busca produtor pelo id")
+    @Operation(summary = "Busca produtor pelo id")
     public ResponseEntity<Produtor> buscarPorId(@PathVariable Long id) {
         return produtorService.buscarPorId(id)
                 .map(ResponseEntity::ok)
@@ -46,7 +46,7 @@ public class ProdutorController {
 
     // GET /produtores/ - Perfil gamificado
     @GetMapping("/{id}/perfil")
-    @Operation(description = "Mostra perfil 'gamificado' do Produtor pelo id")
+    @Operation(summary = "Mostra perfil 'gamificado' do Produtor pelo id")
     public Object perfil(@PathVariable Long id) {
         return produtorService.buscarPorId(id)
                 .map(p -> ResponseEntity.ok(Map.of(
@@ -60,7 +60,7 @@ public class ProdutorController {
 
     // PUT /produtores/ - Atualizar
     @PutMapping("/{id}")
-    @Operation(description = "Atualiza Produtor pelo ID")
+    @Operation(summary = "Atualiza Produtor pelo ID")
     public ResponseEntity<Produtor> atualizar(@PathVariable Long id,
                                                @Valid @RequestBody Produtor produtor) {
         try {
@@ -72,7 +72,7 @@ public class ProdutorController {
 
     // DELETE /produtores/ - Deletar
     @DeleteMapping("/{id}")
-    @Operation(description = "Deleta por Id")
+    @Operation(summary = "Deleta por Id")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         try {
             produtorService.deletar(id);
