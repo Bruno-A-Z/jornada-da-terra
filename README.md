@@ -138,7 +138,7 @@ O sistema calcula automaticamente o `nivelRisco` (0-5) e gera missões.
 
 ---
 
-## 👥 Equipe - 1TDSPO
+## 👥 Equipe - 2TDSPO
 |         Nome        |   RM   |
 |---------------------|--------|
 | Bruno A Zanaeli     | 563736 |
