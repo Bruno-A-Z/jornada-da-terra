@@ -140,6 +140,12 @@ O sistema calcula automaticamente o `nivelRisco` (0-5) e gera missões.
 
 ---
 
-## 👥 Equipe
-**FIAP — Java Development**
-Projeto: Certificação Java Development
+## 👥 Equipe - 
+|         Nome        |   RM   |  Turma |
+|---------------------|--------|--------|
+| Bruno A Zanaeli     | 563736 |        |
+| Christian S Freitas | 566098 |        |
+| Pedro P Biasolli    | 562521 | 1TDSPO |
+| Rodrigo Tiezzi      | 562975 |        |
+| Maheus E Souza      | 562532 |        |
+-----------------------------------------
