@@ -26,19 +26,12 @@ public class Fazenda {
     private String nome;
 
 
-    // Coordenadas GPS para integração com dados satelitais
-    @Column(name = "latitude")
-    private Double latitude;
-
-    @Column(name = "longitude")
-    private Double longitude;
-
     // Área total em hectares
     @Positive(message = "Área deve ser positiva")
     private Double areaHectares;
 
-    private String municipio;
-    private String estado;
+    @Embedded
+    private Localizacao localizacao;
 
 
     @Enumerated(EnumType.STRING)
@@ -55,20 +48,17 @@ public class Fazenda {
     @JsonManagedReference
     private List<Setor> setores = new ArrayList<>();
 
-    // ===================== CONSTRUTORES =====================-
+
 
     public Fazenda() {}
 
     public Fazenda(String nome, Double latitude, Double longitude,
                    Double areaHectares, String municipio, String estado,
-                   TipoCultura TipoCultura, Produtor produtor) {
+                   TipoCultura tipoCultura, Produtor produtor) {
         this.nome = nome;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.localizacao = new Localizacao(latitude, longitude, municipio, estado);
         this.areaHectares = areaHectares;
-        this.municipio = municipio;
-        this.estado = estado;
-        this.TipoCultura = TipoCultura;
+        this.TipoCultura = tipoCultura;
         this.produtor = produtor;
     }
 
@@ -109,20 +99,12 @@ public class Fazenda {
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
-    public Double getLatitude() { return latitude; }
-    public void setLatitude(Double latitude) { this.latitude = latitude; }
-
-    public Double getLongitude() { return longitude; }
-    public void setLongitude(Double longitude) { this.longitude = longitude; }
-
-    public Double getAreaHectares() { return areaHectares; }
-    public void setAreaHectares(Double areaHectares) { this.areaHectares = areaHectares; }
-
-    public String getMunicipio() { return municipio; }
-    public void setMunicipio(String municipio) { this.municipio = municipio; }
-
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public Localizacao getLocalizacao() {
+        return localizacao;
+    }
+    public void setLocalizacao(Localizacao localizacao) {
+        this.localizacao = localizacao;
+    }
 
     public TipoCultura getTipoCultura() { return TipoCultura; }
     public void setTipoCultura(TipoCultura tipoCultura) { this.TipoCultura = tipoCultura; }
