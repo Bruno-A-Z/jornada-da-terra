@@ -93,6 +93,8 @@ public class JornadaDaTerraApplication {
             System.out.println("╠══════════════════════════════════════════╣");
             System.out.println("║  API:   http://localhost:8080/api        ║");
             System.out.println("║  H2 DB: http://localhost:8080/h2-console ║");
+            System.out.println("║Swagger:                                  ║");
+            System.out.println("║http://localhost:8080/swagger-ui/index.html");
             System.out.println("╚══════════════════════════════════════════╝\n");
         };
     }
