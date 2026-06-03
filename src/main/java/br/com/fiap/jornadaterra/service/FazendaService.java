@@ -1,5 +1,6 @@
 package br.com.fiap.jornadaterra.service;
 
+import br.com.fiap.jornadaterra.exception.ResourceNotFoundException;
 import br.com.fiap.jornadaterra.model.Fazenda;
 import br.com.fiap.jornadaterra.model.Produtor;
 import br.com.fiap.jornadaterra.repository.FazendaRepository;
@@ -23,7 +24,7 @@ public class FazendaService {
     @Transactional
     public Fazenda cadastrar(Fazenda fazenda, Long produtorId) {
         Produtor produtor = produtorRepository.findById(produtorId)
-                .orElseThrow(() -> new RuntimeException("Produtor não encontrado: " + produtorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Produtor não encontrado: " + produtorId));
         fazenda.setProdutor(produtor);
         return fazendaRepository.save(fazenda);
     }
@@ -31,9 +32,9 @@ public class FazendaService {
     @Transactional
     public Fazenda vincularProdutor(Long fazendaId, Long produtorId) {
         Fazenda fazenda = fazendaRepository.findById(fazendaId)
-                .orElseThrow(() -> new RuntimeException("Fazenda não encontrada: " + fazendaId));
+                .orElseThrow(() -> new ResourceNotFoundException("Fazenda não encontrada: " + fazendaId));
         Produtor produtor = produtorRepository.findById(produtorId)
-                .orElseThrow(() -> new RuntimeException("Produtor não encontrado: " + produtorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Produtor não encontrado: " + produtorId));
         fazenda.setProdutor(produtor);
         return fazendaRepository.save(fazenda);
     }
@@ -49,7 +50,7 @@ public class FazendaService {
     @Transactional
     public Fazenda atualizar(Long id, Fazenda dados) {
         Fazenda fazenda = fazendaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fazenda não encontrada: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Fazenda não encontrada: " + id));
         fazenda.setNome(dados.getNome());
         fazenda.setMunicipio(dados.getMunicipio());
         fazenda.setEstado(dados.getEstado());
@@ -63,7 +64,7 @@ public class FazendaService {
     @Transactional
     public void deletar(Long id) {
         if (!fazendaRepository.existsById(id)) {
-            throw new RuntimeException("Fazenda não encontrada: " + id);
+            throw new ResourceNotFoundException("Fazenda não encontrada: " + id);
         }
         fazendaRepository.deleteById(id);
     }

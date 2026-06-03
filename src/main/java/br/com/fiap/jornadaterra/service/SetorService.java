@@ -1,5 +1,6 @@
 package br.com.fiap.jornadaterra.service;
 
+import br.com.fiap.jornadaterra.exception.ResourceNotFoundException;
 import br.com.fiap.jornadaterra.model.Fazenda;
 import br.com.fiap.jornadaterra.model.Setor;
 import br.com.fiap.jornadaterra.repository.FazendaRepository;
@@ -40,7 +41,7 @@ public class SetorService {
     public Setor atualizarDadosSatelitais(Long id, double temperatura,
                                           double umidade, double ndvi) {
         Setor setor = setorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Setor não encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Setor não encontrado: " + id));
         setor.atualizarDadosSatelitais(temperatura, umidade, ndvi);
         return setorRepository.save(setor);
     }
@@ -48,7 +49,7 @@ public class SetorService {
     @Transactional
     public Setor atualizar(Long id, Setor dados) {
         Setor setor = setorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Setor não encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Setor não encontrado: " + id));
         setor.setNome(dados.getNome());
         setor.setAreaHectares(dados.getAreaHectares());
         return setorRepository.save(setor);
@@ -57,7 +58,7 @@ public class SetorService {
     @Transactional
     public void deletar(Long id) {
         if (!setorRepository.existsById(id)) {
-            throw new RuntimeException("Setor não encontrado: " + id);
+            throw new ResourceNotFoundException("Setor não encontrado: " + id);
         }
         setorRepository.deleteById(id);
     }

@@ -1,5 +1,7 @@
 package br.com.fiap.jornadaterra.service;
 
+import br.com.fiap.jornadaterra.exception.BusinessException;
+import br.com.fiap.jornadaterra.exception.ResourceNotFoundException;
 import br.com.fiap.jornadaterra.model.Produtor;
 import br.com.fiap.jornadaterra.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ public class ProdutorService {
     @Transactional
     public Produtor cadastrar(Produtor produtor) {
         if (produtorRepository.existsByCpf(produtor.getCpf())) {
-            throw new RuntimeException("CPF já cadastrado: " + produtor.getCpf());
+            throw new BusinessException("CPF já cadastrado: " + produtor.getCpf());
         }
         return produtorRepository.save(produtor);
     }
@@ -38,7 +40,7 @@ public class ProdutorService {
     @Transactional
     public Produtor atualizar(Long id, Produtor dadosAtualizados) {
         Produtor produtor = produtorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produtor não encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Produtor não encontrado: " + id));
 
         produtor.setNome(dadosAtualizados.getNome());
         produtor.setEmail(dadosAtualizados.getEmail());
@@ -50,7 +52,7 @@ public class ProdutorService {
     @Transactional
     public void deletar(Long id) {
         if (!produtorRepository.existsById(id)) {
-            throw new RuntimeException("Produtor não encontrado: " + id);
+            throw new ResourceNotFoundException("Produtor não encontrado: " + id);
         }
         produtorRepository.deleteById(id);
     }
