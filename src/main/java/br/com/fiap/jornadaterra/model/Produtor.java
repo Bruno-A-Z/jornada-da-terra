@@ -1,9 +1,12 @@
 package br.com.fiap.jornadaterra.model;
 
-import br.com.fiap.jornadaterra.enums.TipoCultura;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,8 +14,11 @@ import java.util.List;
 
 /**
  * Representa o produtor rural - usuário principal do sistema.
- * Demonstra: Encapsulamento (getters/setters), Construtor, e relacionamento com Fazenda.
  */
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
 @Entity
 @Table(name = "produtores")
 public class Produtor {
@@ -48,16 +54,12 @@ public class Produtor {
     @JsonManagedReference
     private List<Fazenda> fazendas = new ArrayList<>();
 
-    // ===================== CONSTRUTORES =====================
-
-    // Construtor padrão exigido pelo JPA
     public Produtor() {
         this.pontos = 0;
         this.nivel = 1;
         this.dataCadastro = LocalDateTime.now();
     }
 
-    // Construtor completo - aplica conceito visto na questão do questionário
     public Produtor(String nome, String cpf, String email, String telefone) {
         this();
         this.nome = nome;
@@ -110,27 +112,4 @@ public class Produtor {
         };
     }
 
-
-    public Long getId() { return id; }
-
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-
-    public String getCpf() { return cpf; }
-    public void setCpf(String cpf) { this.cpf = cpf; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getTelefone() { return telefone; }
-    public void setTelefone(String telefone) { this.telefone = telefone; }
-
-    public int getPontos() { return pontos; }
-
-    public int getNivel() { return nivel; }
-
-    public LocalDateTime getDataCadastro() { return dataCadastro; }
-
-    public List<Fazenda> getFazendas() { return fazendas; }
-    public void setFazendas(List<Fazenda> fazendas) { this.fazendas = fazendas; }
 }

@@ -3,12 +3,18 @@ package br.com.fiap.jornadaterra.model;
 import br.com.fiap.jornadaterra.enums.TipoAlerta;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Setor geográfico da fazenda (ex: "Setor Sul", "Setor Norte").
  * Representa uma área monitorada por satélite individualmente.
  */
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
 @Table(name = "setores")
 public class Setor {
 
@@ -40,7 +46,6 @@ public class Setor {
     @JsonBackReference
     private Fazenda fazenda;
 
-    // ===================== CONSTRUTORES =====================
 
     public Setor() {
         this.alertaAtivo = TipoAlerta.NORMAL;
@@ -122,31 +127,5 @@ public class Setor {
         };
     }
 
-    // ===================== GETTERS E SETTERS =====================
 
-    public Long getId() { return id; }
-
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-
-    public double getAreaHectares() { return areaHectares; }
-    public void setAreaHectares(double areaHectares) { this.areaHectares = areaHectares; }
-
-    public int getNivelRisco() { return nivelRisco; }
-    public void setNivelRisco(int nivelRisco) { this.nivelRisco = nivelRisco; }
-
-    public double getTemperaturaAtual() { return temperaturaAtual; }
-    public void setTemperaturaAtual(double temperaturaAtual) { this.temperaturaAtual = temperaturaAtual; }
-
-    public double getUmidadeSolo() { return umidadeSolo; }
-    public void setUmidadeSolo(double umidadeSolo) { this.umidadeSolo = umidadeSolo; }
-
-    public double getIndiceVegetacao() { return indiceVegetacao; }
-    public void setIndiceVegetacao(double indiceVegetacao) { this.indiceVegetacao = indiceVegetacao; }
-
-    public TipoAlerta getAlertaAtivo() { return alertaAtivo; }
-    public void setAlertaAtivo(TipoAlerta alertaAtivo) { this.alertaAtivo = alertaAtivo; }
-
-    public Fazenda getFazenda() { return fazenda; }
-    public void setFazenda(Fazenda fazenda) { this.fazenda = fazenda; }
 }

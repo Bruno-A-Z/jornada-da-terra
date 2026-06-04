@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,11 @@ import java.util.List;
  * Representa a fazenda do produtor.
  * Demonstra: Herança (Fazenda é composta de Setores), Encapsulamento, Construtores.
  */
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "fazendas")
 public class Fazenda {
@@ -48,9 +54,6 @@ public class Fazenda {
     @JsonManagedReference
     private List<Setor> setores = new ArrayList<>();
 
-
-
-    public Fazenda() {}
 
     public Fazenda(String nome, Double latitude, Double longitude,
                    Double areaHectares, String municipio, String estado,
@@ -93,25 +96,4 @@ public class Fazenda {
         return (double) setoresEmRisco / setores.size() * 100;
     }
 
-
-    public Long getId() { return id; }
-
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-
-    public Localizacao getLocalizacao() {
-        return localizacao;
-    }
-    public void setLocalizacao(Localizacao localizacao) {
-        this.localizacao = localizacao;
-    }
-
-    public TipoCultura getTipoCultura() { return TipoCultura; }
-    public void setTipoCultura(TipoCultura tipoCultura) { this.TipoCultura = tipoCultura; }
-
-    public Produtor getProdutor() { return produtor; }
-    public void setProdutor(Produtor produtor) { this.produtor = produtor; }
-
-    public List<Setor> getSetores() { return setores; }
-    public void setSetores(List<Setor> setores) { this.setores = setores; }
 }
