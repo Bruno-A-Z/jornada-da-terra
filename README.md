@@ -10,6 +10,12 @@ Dados complexos de satélites são convertidos em **missões interativas** para
 pequenos e médios produtores rurais, tornando o agronegócio acessível e engajador.
 
 ---
+🔗 Links do Projeto
+Link🚀 Deploy (Render)[https://jornada-da-terra.onrender.com](https://jornada-da-terra.onrender.com)
+📹 Vídeo de Apresentação https://youtu.be/xxxxx
+📄 Swagger (Documentação da API) [https://jornada-da-terra.onrender.com/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+💻 Repositório GitHub [https://github.com/Bruno-A-Z/jornada-da-terra](https://github.com/Bruno-A-Z/jornada-da-terra/)
+---
 
 ## 🏗️ Arquitetura e Conceitos de POO Aplicados
 
@@ -53,14 +59,18 @@ br.com.fiap.jornadaterra
 
 ### Executar
 ```bash
+# 1. Clonar o repositório
+git clone https://github.com/Bruno-A-Z/jornada-da-terra.git
 cd jornada-da-terra
+
+# 2. Executar
 mvn spring-boot:run
 ```
 
 ### Acessar
 - **API REST:** http://localhost:8080/api
 - **Banco H2 (console):** http://localhost:8080/h2-console
-
+- **Render [https://jornada-da-terra.onrender.com](https://jornada-da-terra.onrender.com)
 ---
 
 ## 🌐 Endpoints da API
@@ -84,6 +94,20 @@ mvn spring-boot:run
 | POST | `/api/missoes/{id}/concluir?produtorId=1` | Concluir + ganhar pontos |
 | POST | `/api/missoes/{id}/acao-climatica` | Confirmar ação climática |
 | POST | `/api/missoes/{id}/verificar-setor?nomeSetor=Sul` | Verificar setor |
+
+###
+
+|💡 Fluxo Completo de Exemplo|
+---|---|
+| 1. Criar produtor     |  → POST /produtores |
+| 2. Criar fazenda      |  → POST /fazendas/produtor/1|
+| 3. Criar setor        |  → POST /setores/fazenda/1|
+| 4. Simular satélite   |  → PATCH /setores/1/satelital  { temperatura: 1.5 }|
+| 5. Gerar missões      |  → POST /fazendas/1/gerar-missoes|
+| 6. Iniciar missão     |  → POST /missoes/1/iniciar?produtorId=1|
+| 7. Confirmar ação     |  → POST /missoes/1/acao-climatica|
+| 8. Concluir missão    |  → POST /missoes/1/concluir?produtorId=1|
+| 9. Ver perfil         |  → GET  /produtores/1/perfil   → +150 pts 🏆|
 
 ---
 
