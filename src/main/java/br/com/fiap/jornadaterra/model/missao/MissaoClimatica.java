@@ -3,6 +3,10 @@ package br.com.fiap.jornadaterra.model.missao;
 import br.com.fiap.jornadaterra.enums.TipoAlerta;
 import br.com.fiap.jornadaterra.model.Fazenda;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +17,12 @@ import java.time.LocalDateTime;
  * Exemplo: "⚠️ Alerta de geada se aproximando do setor sul:
  *           inicie a proteção da colheita!"
  */
+
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
 @Entity
 @DiscriminatorValue("CLIMATICA")
 public class MissaoClimatica extends Missao {
@@ -56,7 +66,7 @@ public class MissaoClimatica extends Missao {
         this.temperaturaPrevista = temperaturaPrevista;
     }
 
-    // ===================== MÉTODOS ABSTRATOS IMPLEMENTADOS (Polimorfismo) =====================
+
 
     @Override
     public boolean validarConclusao() {
@@ -64,7 +74,6 @@ public class MissaoClimatica extends Missao {
         return acaoRealizada;
     }
 
-    @Override
     public String getIcone() {
         return switch (tipoAlerta) {
             case GEADA          -> "🥶";
@@ -76,12 +85,10 @@ public class MissaoClimatica extends Missao {
         };
     }
 
-    @Override
     public String getCategoria() {
         return "Clima & Proteção";
     }
 
-    // ===================== MÉTODOS AUXILIARES ESTÁTICOS =====================
 
     private static String gerarTitulo(TipoAlerta alerta, String setor) {
         return switch (alerta) {
@@ -122,7 +129,6 @@ public class MissaoClimatica extends Missao {
         };
     }
 
-    // ===================== GETTERS E SETTERS =====================
 
     public TipoAlerta getTipoAlerta() { return tipoAlerta; }
     public void setTipoAlerta(TipoAlerta tipoAlerta) { this.tipoAlerta = tipoAlerta; }

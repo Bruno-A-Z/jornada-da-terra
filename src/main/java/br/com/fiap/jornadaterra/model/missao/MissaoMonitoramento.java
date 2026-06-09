@@ -2,18 +2,25 @@ package br.com.fiap.jornadaterra.model.missao;
 
 import br.com.fiap.jornadaterra.model.Fazenda;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 /**
- * MISSÃO DE MONITORAMENTO - Herda de Missao (Herança).
- *
  * Missões de rotina para manter a fazenda saudável:
  * verificação de sensores, atualização de dados, inspeção de setores.
  *
  * Exemplo: "📡 Atualize os dados do Setor Norte para receber
  *           previsões mais precisas do satélite."
  */
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
 @Entity
 @DiscriminatorValue("MONITORAMENTO")
 public class MissaoMonitoramento extends Missao {
@@ -51,7 +58,6 @@ public class MissaoMonitoramento extends Missao {
         this.frequencia = frequencia;
     }
 
-    // ===================== MÉTODOS ABSTRATOS IMPLEMENTADOS (Polimorfismo) =====================
 
     @Override
     public boolean validarConclusao() {
@@ -59,12 +65,10 @@ public class MissaoMonitoramento extends Missao {
         return setoresVerificados >= setoresAVerificar;
     }
 
-    @Override
     public String getIcone() {
         return "📡";
     }
 
-    @Override
     public String getCategoria() {
         return "Monitoramento Satelital";
     }
@@ -104,15 +108,4 @@ public class MissaoMonitoramento extends Missao {
             default        -> LocalDateTime.now().plusDays(3);
         };
     }
-
-    // ===================== GETTERS E SETTERS =====================
-
-    public int getSetoresAVerificar() { return setoresAVerificar; }
-    public void setSetoresAVerificar(int setoresAVerificar) { this.setoresAVerificar = setoresAVerificar; }
-
-    public int getSetoresVerificados() { return setoresVerificados; }
-    public void setSetoresVerificados(int setoresVerificados) { this.setoresVerificados = setoresVerificados; }
-
-    public String getFrequencia() { return frequencia; }
-    public void setFrequencia(String frequencia) { this.frequencia = frequencia; }
 }

@@ -4,10 +4,14 @@ import br.com.fiap.jornadaterra.enums.StatusMissao;
 import br.com.fiap.jornadaterra.model.Fazenda;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-
+@Setter
+@Getter
+@EqualsAndHashCode
+@AllArgsConstructor
 @Entity
 @Table(name = "missoes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -67,25 +71,7 @@ public abstract class Missao {
         this.fazenda = fazenda;
     }
 
-    // ===================== MÉTODOS ABSTRATOS (Polimorfismo) =====================
-
-    /**
-     * Cada tipo de missão define sua própria lógica de conclusão.
-     * POLIMORFISMO: mesmo método, comportamentos diferentes.
-     */
     public abstract boolean validarConclusao();
-
-    /**
-     * Retorna o ícone/emoji representativo da missão no app.
-     */
-    public abstract String getIcone();
-
-    /**
-     * Retorna a categoria da missão para exibição.
-     */
-    public abstract String getCategoria();
-
-    // ===================== MÉTODOS CONCRETOS COMPARTILHADOS =====================
 
     /**
      * Inicia a missão - muda status de PENDENTE para EM_ANDAMENTO
@@ -123,35 +109,4 @@ public abstract class Missao {
         if (dataLimite == null) return false;
         return LocalDateTime.now().isAfter(dataLimite) && status == StatusMissao.PENDENTE;
     }
-
-    // ===================== GETTERS E SETTERS =====================
-
-    public Long getId() { return id; }
-
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
-
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
-
-    public String getMensagemHeroica() { return mensagemHeroica; }
-    public void setMensagemHeroica(String mensagemHeroica) { this.mensagemHeroica = mensagemHeroica; }
-
-    public StatusMissao getStatus() { return status; }
-    public void setStatus(StatusMissao status) { this.status = status; }
-
-    public int getPontosRecompensa() { return pontosRecompensa; }
-    public void setPontosRecompensa(int pontosRecompensa) { this.pontosRecompensa = pontosRecompensa; }
-
-    public int getNivelMinimoProdutor() { return nivelMinimoProdutor; }
-    public void setNivelMinimoProdutor(int nivelMinimoProdutor) { this.nivelMinimoProdutor = nivelMinimoProdutor; }
-
-    public LocalDateTime getDataCriacao() { return dataCriacao; }
-    public LocalDateTime getDataLimite() { return dataLimite; }
-    public void setDataLimite(LocalDateTime dataLimite) { this.dataLimite = dataLimite; }
-
-    public LocalDateTime getDataConclusao() { return dataConclusao; }
-
-    public Fazenda getFazenda() { return fazenda; }
-    public void setFazenda(Fazenda fazenda) { this.fazenda = fazenda; }
 }

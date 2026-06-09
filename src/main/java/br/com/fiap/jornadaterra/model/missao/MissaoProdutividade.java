@@ -3,6 +3,10 @@ package br.com.fiap.jornadaterra.model.missao;
 import br.com.fiap.jornadaterra.enums.TipoCultura;
 import br.com.fiap.jornadaterra.model.Fazenda;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +17,11 @@ import java.time.LocalDateTime;
  * Exemplo: "🌱 Índice NDVI baixo detectado! Plante as
  *           mudas de reposição no Setor Leste agora."
  */
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
 @Entity
 @DiscriminatorValue("PRODUTIVIDADE")
 public class MissaoProdutividade extends Missao {
@@ -64,7 +73,6 @@ public class MissaoProdutividade extends Missao {
         return produtividadeAtual >= metaProdutividade;
     }
 
-    @Override
     public String getIcone() {
         return switch (cultura) {
             case SOJA    -> "🫘";
@@ -75,12 +83,9 @@ public class MissaoProdutividade extends Missao {
         };
     }
 
-    @Override
     public String getCategoria() {
         return "Produtividade Agrícola";
     }
-
-    // ===================== MÉTODOS AUXILIARES =====================
 
     private static String gerarTitulo(TipoCultura cultura, String acao) {
         return acao + " de " + cultura.name().replace("_", " ") + " - Missão da Terra";
@@ -111,17 +116,5 @@ public class MissaoProdutividade extends Missao {
         };
     }
 
-    // ===================== GETTERS E SETTERS =====================
 
-    public TipoCultura getCultura() { return cultura; }
-    public void setCultura(TipoCultura cultura) { this.cultura = cultura; }
-
-    public double getMetaProdutividade() { return metaProdutividade; }
-    public void setMetaProdutividade(double metaProdutividade) { this.metaProdutividade = metaProdutividade; }
-
-    public double getProdutividadeAtual() { return produtividadeAtual; }
-    public void setProdutividadeAtual(double produtividadeAtual) { this.produtividadeAtual = produtividadeAtual; }
-
-    public String getTipoAcao() { return tipoAcao; }
-    public void setTipoAcao(String tipoAcao) { this.tipoAcao = tipoAcao; }
 }
