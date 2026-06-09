@@ -35,7 +35,7 @@ public class MissaoController {
         return ResponseEntity.ok(missaoAssembler.toModel(missao));
     }
 
-    @GetMapping("/produtor/{produtorId}")
+    @GetMapping("/fazenda/{fazendaId}/produtor/{produtorId}")
     @Operation(summary = "Lista Historico de Missoes do produtor")
     public ResponseEntity<CollectionModel<EntityModel<Missao>>> listarTodas(@PathVariable Long produtorId) {
         List<EntityModel<Missao>> missoes = missaoService.listarTodasMissoes(produtorId)

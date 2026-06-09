@@ -2,6 +2,7 @@ package br.com.fiap.jornadaterra.model.missao;
 
 import br.com.fiap.jornadaterra.enums.StatusMissao;
 import br.com.fiap.jornadaterra.model.Fazenda;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -43,6 +44,7 @@ public abstract class Missao {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fazenda_id")
+    @JsonIgnore
     private Fazenda fazenda;
 
     // ===================== CONSTRUTOR =====================
