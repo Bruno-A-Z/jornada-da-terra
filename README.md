@@ -11,10 +11,10 @@ pequenos e médios produtores rurais, tornando o agronegócio acessível e engaj
 
 ---
 🔗 Links do Projeto
-Link🚀 Deploy (Render)[https://jornada-da-terra.onrender.com](https://jornada-da-terra.onrender.com)
-📹 Vídeo de Apresentação https://youtu.be/xxxxx
-📄 Swagger (Documentação da API) [https://jornada-da-terra.onrender.com/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-💻 Repositório GitHub [https://github.com/Bruno-A-Z/jornada-da-terra](https://github.com/Bruno-A-Z/jornada-da-terra/)
+- Link🚀 Deploy (Render)[https://jornada-da-terra.onrender.com](https://jornada-da-terra.onrender.com)
+- 📹 Vídeo de Apresentação https://youtu.be/xxxxx
+- 📄 Swagger (Documentação da API) [https://jornada-da-terra.onrender.com/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- 💻 Repositório GitHub [https://github.com/Bruno-A-Z/jornada-da-terra](https://github.com/Bruno-A-Z/jornada-da-terra/)
 ---
 
 ## 🏗️ Arquitetura e Conceitos de POO Aplicados
