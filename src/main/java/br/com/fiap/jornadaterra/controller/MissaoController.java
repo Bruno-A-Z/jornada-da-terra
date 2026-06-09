@@ -1,5 +1,6 @@
 package br.com.fiap.jornadaterra.controller;
 
+import br.com.fiap.jornadaterra.assembler.MissaoAssembler;
 import br.com.fiap.jornadaterra.exception.ResourceNotFoundException;
 import br.com.fiap.jornadaterra.model.missao.Missao;
 import br.com.fiap.jornadaterra.service.MissaoService;
@@ -23,50 +24,40 @@ public class MissaoController {
     @Autowired
     private MissaoService missaoService;
 
+    @Autowired
+    private MissaoAssembler missaoAssembler;
+
     @GetMapping("/{id}")
     @Operation(summary = "busca missao por id")
     public ResponseEntity<EntityModel<Missao>> buscarPorId(@PathVariable Long id) {
         Missao missao = missaoService.buscarPorId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Missão não encontrada: " + id));
-        EntityModel<Missao> model = EntityModel.of(missao,
-                linkTo(methodOn(MissaoController.class).buscarPorId(id)).withSelfRel(),
-                linkTo(methodOn(FazendaController.class).buscarPorId(missao.getFazenda().getId())).withRel("fazenda")
-        );
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(missaoAssembler.toModel(missao));
     }
-
 
     @GetMapping("/produtor/{produtorId}")
-    @Operation(summary = "Lista missoes ativas/incompletas do produtor")
-    public ResponseEntity<CollectionModel<EntityModel<Missao>>> listarAtivas(@PathVariable Long produtorId) {
-        List<EntityModel<Missao>> missoes = missaoService.listarMissoesPendentes(produtorId)
-                .stream()
-                .map(m -> EntityModel.of(m,
-                        linkTo(methodOn(MissaoController.class).buscarPorId(m.getId())).withSelfRel(),
-                        linkTo(methodOn(ProdutorController.class).buscarPorId(produtorId)).withRel("produtor")
-                ))
-                .toList();
-
-        CollectionModel<EntityModel<Missao>> collection = CollectionModel.of(missoes,
-                linkTo(methodOn(MissaoController.class).listarAtivas(produtorId)).withSelfRel(),
-                linkTo(methodOn(MissaoController.class).listarTodas(produtorId)).withRel("historico-completo")
-        );
-        return ResponseEntity.ok(collection);
-    }
-
-    @GetMapping("/produtor/{produtorId}/todas")
     @Operation(summary = "Lista Historico de Missoes do produtor")
     public ResponseEntity<CollectionModel<EntityModel<Missao>>> listarTodas(@PathVariable Long produtorId) {
         List<EntityModel<Missao>> missoes = missaoService.listarTodasMissoes(produtorId)
                 .stream()
-                .map(m -> EntityModel.of(m,
-                        linkTo(methodOn(MissaoController.class).buscarPorId(m.getId())).withSelfRel(),
-                        linkTo(methodOn(ProdutorController.class).buscarPorId(produtorId)).withRel("produtor")
-                ))
+                .map(missaoAssembler::toModel)
                 .toList();
-
         CollectionModel<EntityModel<Missao>> collection = CollectionModel.of(missoes,
                 linkTo(methodOn(MissaoController.class).listarTodas(produtorId)).withSelfRel()
+        );
+        return ResponseEntity.ok(collection);
+    }
+
+    @GetMapping("/produtor/{produtorId}/ativas")
+    @Operation(summary = "Lista missoes ativas/incompletas do produtor")
+    public ResponseEntity<CollectionModel<EntityModel<Missao>>> listarAtivas(@PathVariable Long produtorId) {
+        List<EntityModel<Missao>> missoes = missaoService.listarMissoesPendentes(produtorId)
+                .stream()
+                .map(missaoAssembler::toModel)
+                .toList();
+        CollectionModel<EntityModel<Missao>> collection = CollectionModel.of(missoes,
+                linkTo(methodOn(MissaoController.class).listarAtivas(produtorId)).withSelfRel(),
+                linkTo(methodOn(MissaoController.class).listarTodas(produtorId)).withRel("historico-completo")
         );
         return ResponseEntity.ok(collection);
     }
@@ -93,6 +84,17 @@ public class MissaoController {
                 "_link_perfil", "/produtores/" + produtorId + "/perfil",
                 "_link_missoes", "/missoes/produtor/" + produtorId
         ));
+    }
+
+    @PostMapping("/produtividade/fazenda/{fazendaId}")
+    @Operation(summary = "Cria missao de produtividade")
+    public ResponseEntity<EntityModel<Missao>> criarProdutividade(
+            @PathVariable Long fazendaId,
+            @RequestParam String tipoAcao,
+            @RequestParam String cultura,
+            @RequestParam double meta) {
+        Missao missao = missaoService.criarMissaoProdutividade(fazendaId, tipoAcao, cultura, meta);
+        return ResponseEntity.status(HttpStatus.CREATED).body(missaoAssembler.toModel(missao));
     }
 
     @PostMapping("/{id}/acao-climatica")

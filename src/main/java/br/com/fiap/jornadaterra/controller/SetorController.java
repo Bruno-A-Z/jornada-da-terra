@@ -1,5 +1,6 @@
 package br.com.fiap.jornadaterra.controller;
 
+import br.com.fiap.jornadaterra.assembler.SetorAssembler;
 import br.com.fiap.jornadaterra.exception.ResourceNotFoundException;
 import br.com.fiap.jornadaterra.model.Setor;
 import br.com.fiap.jornadaterra.service.SetorService;
@@ -24,17 +25,15 @@ public class SetorController {
     @Autowired
     private SetorService setorService;
 
+    @Autowired
+    private SetorAssembler setorAssembler;
+
     @PostMapping("/fazenda/{fazendaId}")
     @Operation(summary = "Adiciona Setor da Fazenda")
     public ResponseEntity<EntityModel<Setor>> cadastrar(@PathVariable Long fazendaId,
                                                         @Valid @RequestBody Setor setor) {
         Setor salvo = setorService.cadastrar(setor, fazendaId);
-        EntityModel<Setor> model = EntityModel.of(salvo,
-                linkTo(methodOn(SetorController.class).buscarPorId(salvo.getId())).withSelfRel(),
-                linkTo(methodOn(SetorController.class).listarPorFazenda(fazendaId)).withRel("setores-da-fazenda"),
-                linkTo(methodOn(FazendaController.class).buscarPorId(fazendaId)).withRel("fazenda")
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(model);
+        return ResponseEntity.status(HttpStatus.CREATED).body(setorAssembler.toModel(salvo));
     }
 
     @GetMapping("/fazenda/{fazendaId}")
@@ -42,12 +41,8 @@ public class SetorController {
     public ResponseEntity<CollectionModel<EntityModel<Setor>>> listarPorFazenda(@PathVariable Long fazendaId) {
         List<EntityModel<Setor>> setores = setorService.listarPorFazenda(fazendaId)
                 .stream()
-                .map(s -> EntityModel.of(s,
-                        linkTo(methodOn(SetorController.class).buscarPorId(s.getId())).withSelfRel(),
-                        linkTo(methodOn(FazendaController.class).buscarPorId(fazendaId)).withRel("fazenda")
-                ))
+                .map(setorAssembler::toModel)
                 .toList();
-
         CollectionModel<EntityModel<Setor>> collection = CollectionModel.of(setores,
                 linkTo(methodOn(SetorController.class).listarPorFazenda(fazendaId)).withSelfRel(),
                 linkTo(methodOn(FazendaController.class).buscarPorId(fazendaId)).withRel("fazenda")
@@ -60,11 +55,7 @@ public class SetorController {
     public ResponseEntity<EntityModel<Setor>> buscarPorId(@PathVariable Long id) {
         Setor setor = setorService.buscarPorId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Setor não encontrado: " + id));
-        EntityModel<Setor> model = EntityModel.of(setor,
-                linkTo(methodOn(SetorController.class).buscarPorId(id)).withSelfRel(),
-                linkTo(methodOn(FazendaController.class).buscarPorId(setor.getFazenda().getId())).withRel("fazenda")
-        );
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(setorAssembler.toModel(setor));
     }
 
     @PatchMapping("/{id}/satelital")
@@ -75,12 +66,7 @@ public class SetorController {
         double umidade = dados.getOrDefault("umidade", 60.0);
         double ndvi = dados.getOrDefault("ndvi", 0.7);
         Setor setor = setorService.atualizarDadosSatelitais(id, temperatura, umidade, ndvi);
-        EntityModel<Setor> model = EntityModel.of(setor,
-                linkTo(methodOn(SetorController.class).buscarPorId(id)).withSelfRel(),
-                linkTo(methodOn(FazendaController.class).gerarMissoes(setor.getFazenda().getId())).withRel("gerar-missoes"),
-                linkTo(methodOn(FazendaController.class).buscarPorId(setor.getFazenda().getId())).withRel("fazenda")
-        );
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(setorAssembler.toModel(setor));
     }
 
     @PutMapping("/{id}")
@@ -88,14 +74,9 @@ public class SetorController {
     public ResponseEntity<EntityModel<Setor>> atualizar(@PathVariable Long id,
                                                         @Valid @RequestBody Setor dados) {
         Setor atualizado = setorService.atualizar(id, dados);
-        EntityModel<Setor> model = EntityModel.of(atualizado,
-                linkTo(methodOn(SetorController.class).buscarPorId(id)).withSelfRel(),
-                linkTo(methodOn(FazendaController.class).buscarPorId(atualizado.getFazenda().getId())).withRel("fazenda")
-        );
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(setorAssembler.toModel(atualizado));
     }
 
-    // DELETE /setores/
     @DeleteMapping("/{id}")
     @Operation(summary = "Deleta Setor")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {

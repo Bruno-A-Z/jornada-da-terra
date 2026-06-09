@@ -24,7 +24,6 @@ public class GlobalExceptionHandler {
         ));
     }
 
-    // 400 - Regra de negócio violada
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Map<String, Object>> handleBusiness(BusinessException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro(
@@ -34,7 +33,6 @@ public class GlobalExceptionHandler {
         ));
     }
 
-    // 400 - Validação dos campos (@Valid)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> campos = new HashMap<>();

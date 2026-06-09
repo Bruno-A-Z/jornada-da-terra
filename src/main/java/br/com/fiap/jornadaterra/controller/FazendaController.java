@@ -1,5 +1,6 @@
 package br.com.fiap.jornadaterra.controller;
 
+import br.com.fiap.jornadaterra.assembler.FazendaAssembler;
 import br.com.fiap.jornadaterra.exception.ResourceNotFoundException;
 import br.com.fiap.jornadaterra.model.Fazenda;
 import br.com.fiap.jornadaterra.model.Localizacao;
@@ -29,24 +30,23 @@ public class FazendaController {
     @Autowired
     private MissaoService missaoService;
 
+    @Autowired
+    private FazendaAssembler fazendaAssembler;
+
     @PostMapping("/produtor/{produtorId}")
     @Operation(summary = "Cadastra fazenda com um Produtor como proprietario")
     public ResponseEntity<EntityModel<Fazenda>> cadastrar(@PathVariable Long produtorId,
                                                           @Valid @RequestBody Fazenda fazenda) {
         Fazenda salva = fazendaService.cadastrar(fazenda, produtorId);
-        EntityModel<Fazenda> model = EntityModel.of(salva,
-                linkTo(methodOn(FazendaController.class).buscarPorId(salva.getId())).withSelfRel(),
-                linkTo(methodOn(FazendaController.class).listarPorProdutor(produtorId)).withRel("fazendas-do-produtor"),
-                linkTo(methodOn(SetorController.class).listarPorFazenda(salva.getId())).withRel("setores"),
-                linkTo(methodOn(FazendaController.class).gerarMissoes(salva.getId())).withRel("gerar-missoes")
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(model);
+        return ResponseEntity.status(HttpStatus.CREATED).body(fazendaAssembler.toModel(salva));
     }
 
     @PutMapping("/{idFazenda}/produtor/{idProdutor}")
     @Operation(summary = "Vincula um produtor à Fazenda")
-    public ResponseEntity<Fazenda> vincularProdutor(@PathVariable Long idFazenda, @PathVariable Long idProdutor) {
-        return ResponseEntity.ok(fazendaService.vincularProdutor(idFazenda, idProdutor));
+    public ResponseEntity<EntityModel<Fazenda>> vincularProdutor(@PathVariable Long idFazenda,
+                                                                 @PathVariable Long idProdutor) {
+        Fazenda fazenda = fazendaService.vincularProdutor(idFazenda, idProdutor);
+        return ResponseEntity.ok(fazendaAssembler.toModel(fazenda));
     }
 
     @GetMapping("/produtor/{produtorId}")
@@ -54,13 +54,8 @@ public class FazendaController {
     public ResponseEntity<CollectionModel<EntityModel<Fazenda>>> listarPorProdutor(@PathVariable Long produtorId) {
         List<EntityModel<Fazenda>> fazendas = fazendaService.listarPorProdutorId(produtorId)
                 .stream()
-                .map(f -> EntityModel.of(f,
-                        linkTo(methodOn(FazendaController.class).buscarPorId(f.getId())).withSelfRel(),
-                        linkTo(methodOn(SetorController.class).listarPorFazenda(f.getId())).withRel("setores"),
-                        linkTo(methodOn(FazendaController.class).gerarMissoes(f.getId())).withRel("gerar-missoes")
-                ))
+                .map(fazendaAssembler::toModel)
                 .toList();
-
         CollectionModel<EntityModel<Fazenda>> collection = CollectionModel.of(fazendas,
                 linkTo(methodOn(FazendaController.class).listarPorProdutor(produtorId)).withSelfRel(),
                 linkTo(methodOn(ProdutorController.class).buscarPorId(produtorId)).withRel("produtor")
@@ -73,13 +68,7 @@ public class FazendaController {
     public ResponseEntity<EntityModel<Fazenda>> buscarPorId(@PathVariable Long id) {
         Fazenda fazenda = fazendaService.buscarPorId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Fazenda não encontrada: " + id));
-        EntityModel<Fazenda> model = EntityModel.of(fazenda,
-                linkTo(methodOn(FazendaController.class).buscarPorId(id)).withSelfRel(),
-                linkTo(methodOn(SetorController.class).listarPorFazenda(id)).withRel("setores"),
-                linkTo(methodOn(FazendaController.class).gerarMissoes(id)).withRel("gerar-missoes"),
-                linkTo(methodOn(ProdutorController.class).buscarPorId(id)).withRel("produtor")
-        );
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(fazendaAssembler.toModel(fazenda));
     }
 
     @PostMapping("/{id}/gerar-missoes")
@@ -99,11 +88,7 @@ public class FazendaController {
     public ResponseEntity<EntityModel<Fazenda>> atualizar(@PathVariable Long id,
                                                           @Valid @RequestBody Fazenda dados) {
         Fazenda atualizada = fazendaService.atualizar(id, dados);
-        EntityModel<Fazenda> model = EntityModel.of(atualizada,
-                linkTo(methodOn(FazendaController.class).buscarPorId(id)).withSelfRel(),
-                linkTo(methodOn(SetorController.class).listarPorFazenda(id)).withRel("setores")
-        );
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(fazendaAssembler.toModel(atualizada));
     }
 
     @DeleteMapping("/{id}")
