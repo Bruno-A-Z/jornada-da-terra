@@ -95,19 +95,18 @@ mvn spring-boot:run
 | POST | `/api/missoes/{id}/acao-climatica` | Confirmar ação climática |
 | POST | `/api/missoes/{id}/verificar-setor?nomeSetor=Sul` | Verificar setor |
 
-###
-
-|💡 Fluxo Completo de Exemplo|
+###💡 Fluxo Completo de Exemplo
+| Passos | Metodo/Url |
 |---|---|
-| 1. Criar produtor     |  → POST /produtores |
-| 2. Criar fazenda      |  → POST /fazendas/produtor/1|
-| 3. Criar setor        |  → POST /setores/fazenda/1|
-| 4. Simular satélite   |  → PATCH /setores/1/satelital  { temperatura: 1.5 }|
-| 5. Gerar missões      |  → POST /fazendas/1/gerar-missoes|
-| 6. Iniciar missão     |  → POST /missoes/1/iniciar?produtorId=1|
-| 7. Confirmar ação     |  → POST /missoes/1/acao-climatica|
-| 8. Concluir missão    |  → POST /missoes/1/concluir?produtorId=1|
-| 9. Ver perfil         |  → GET  /produtores/1/perfil   → +150 pts 🏆|
+| 1. Criar produtor  |  → POST /produtores |
+| 2. Criar fazenda      |  → POST /fazendas/produtor/1 |
+| 3. Criar setor        |  → POST /setores/fazenda/1 |
+| 4. Simular satélite   |  → PATCH /setores/1/satelital  { temperatura: 1.5 } |
+| 5. Gerar missões      |  → POST /fazendas/1/gerar-missoes |
+| 6. Iniciar missão     |  → POST /missoes/1/iniciar?produtorId=1 |
+| 7. Confirmar ação     |  → POST /missoes/1/acao-climatica |
+| 8. Concluir missão    |  → POST /missoes/1/concluir?produtorId=1 |
+| 9. Ver perfil         |  → GET  /produtores/1/perfil   → +150 pts 🏆 |
 
 ---
 
