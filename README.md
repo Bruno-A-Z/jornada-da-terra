@@ -98,7 +98,7 @@ mvn spring-boot:run
 ###
 
 |💡 Fluxo Completo de Exemplo|
----|---|
+|---|---|
 | 1. Criar produtor     |  → POST /produtores |
 | 2. Criar fazenda      |  → POST /fazendas/produtor/1|
 | 3. Criar setor        |  → POST /setores/fazenda/1|
