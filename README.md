@@ -19,7 +19,7 @@ pequenos e médios produtores rurais, tornando o agronegócio acessível e engaj
 
 ## 🏗️ Arquitetura e Conceitos de POO Aplicados
 
-### Pilares da POO utilizados (conforme estudado)
+### Pilares da POO utilizados
 
 | Pilar | Onde está no projeto |
 |---|---|
