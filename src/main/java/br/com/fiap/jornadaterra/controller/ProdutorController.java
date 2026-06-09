@@ -5,6 +5,7 @@ import br.com.fiap.jornadaterra.exception.ResourceNotFoundException;
 import br.com.fiap.jornadaterra.model.Produtor;
 import br.com.fiap.jornadaterra.service.ProdutorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+@Tag(name = "Produtor", description = "Gerencia produtores")
 @RestController
 @RequestMapping("/produtores")
 public class ProdutorController {

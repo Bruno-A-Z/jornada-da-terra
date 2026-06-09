@@ -5,6 +5,7 @@ import br.com.fiap.jornadaterra.exception.ResourceNotFoundException;
 import br.com.fiap.jornadaterra.model.missao.Missao;
 import br.com.fiap.jornadaterra.service.MissaoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+@Tag(name = "Missao", description = "Gerenciamento de missoes, criacao, atualizar progresso, etc.")
 @RestController
 @RequestMapping("/missoes")
 public class MissaoController {

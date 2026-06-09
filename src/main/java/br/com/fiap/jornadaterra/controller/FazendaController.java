@@ -7,6 +7,7 @@ import br.com.fiap.jornadaterra.model.Localizacao;
 import br.com.fiap.jornadaterra.service.FazendaService;
 import br.com.fiap.jornadaterra.service.MissaoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+@Tag(name = "Fazenda", description = "Gerenciar Fazendas")
 @RestController
 @RequestMapping("/fazendas")
 public class FazendaController {
