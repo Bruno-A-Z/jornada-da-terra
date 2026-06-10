@@ -12,7 +12,7 @@ pequenos e médios produtores rurais, tornando o agronegócio acessível e engaj
 ---
 🔗 Links do Projeto
 - Link🚀 Deploy (Render)[https://jornada-da-terra.onrender.com](https://jornada-da-terra.onrender.com)
-- 📹 Vídeo de Apresentação [https://youtu.be/Jornada Da Terra](https://youtu.be/3DBVsbSTJD8)
+- 📹 Vídeo de Apresentação [https://youtu.be/Jornada Da Terra](https://youtu.be/3DBVsbSTJD8)  /  Video pitch https://youtu.be/G8mwBqIqafc
 - 📄 Swagger (Documentação da API) [https://jornada-da-terra.onrender.com/swagger-ui/index.html](https://jornada-da-terra.onrender.com/swagger-ui/index.html)
 - 💻 Repositório GitHub [https://github.com/Bruno-A-Z/jornada-da-terra](https://github.com/Bruno-A-Z/jornada-da-terra/)
 ---
